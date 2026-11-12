@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07080c" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Lumen — зустрічі, після яких усе зрозуміло</title>
+    <meta
+      name="description"
+      content="Lumen підключається до Zoom, Meet і Teams, транскрибує зустріч і відправляє підсумок із задачами в Slack, Notion або Jira."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:title" content="Lumen — зустрічі, після яких усе зрозуміло" />
+    <meta
+      property="og:description"
+      content="AI-асистент для онлайн-зустрічей: запис, транскрипт, підсумок і задачі з дедлайнами."
+    />
+    <meta property="og:image" content="/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lumen — зустрічі, після яких усе зрозуміло" />
+    <meta
+      name="twitter:description"
+      content="Підсумок, відповідальні й дедлайни — ще до того, як ви закриєте ноутбук."
+    />
+    <meta name="twitter:image" content="/og.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Lumen",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "AI-асистент, який підключається до Zoom, Google Meet і Teams, транскрибує розмову та відправляє підсумок і задачі в Slack, Notion або Jira.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <style>
+      html, body { background: #07080c; color: #f3f0e8; }
+    </style>
+    <script>
+      document.documentElement.classList.add("js");
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("reduce");
+      }
+    </script>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Перейти до вмісту</a>
+
+    <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+    <div class="cursor" aria-hidden="true"></div>
+
+    <div class="ambient" aria-hidden="true">
+      <div class="glow glow-a"></div>
+      <div class="glow glow-b"></div>
+      <div class="glow glow-follow" id="glow"></div>
+      <div class="grid-fade"></div>
+    </div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" hidden>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17 17 7" /><path d="M7 7h10v10" />
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 5.5v13l12-6.5L7 5.5z" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6 9 17l-5-5" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+      <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6" />
+      </symbol>
+      <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+    </svg>
+
+    <header class="site-header" id="header">
+      <div class="wrap header-inner">
+        <a class="logo" href="#main">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="11" fill="none" stroke="#ffb547" stroke-width="1.4" opacity="0.55" />
+            <circle cx="16" cy="16" r="4.5" fill="#ffb547" />
+          </svg>
+          Lumen
+        </a>
+        <nav class="nav-desktop" aria-label="Головне">
+          <a href="#features">Можливості</a>
+          <a href="#how">Як працює</a>
+          <a href="#pricing">Ціни</a>
+          <a href="#security">Безпека</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn btn-primary btn-small header-cta" type="button" data-magnetic data-open-signup>
+            Спробувати безкоштовно
+          </button>
+          <button class="icon-btn burger" type="button" aria-expanded="false" aria-controls="mobile-nav" id="burger">
+            <span class="sr-only">Відкрити меню</span>
+            <svg class="icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav-panel" id="mobile-nav" aria-label="Мобільне меню">
+      <a href="#features">Можливості</a>
+      <a href="#how">Як працює</a>
+      <a href="#pricing">Ціни</a>
+      <a href="#security">Безпека</a>
+      <button class="btn btn-primary" type="button" data-open-signup>Спробувати безкоштовно</button>
+    </nav>
+
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Зустрічей більше, ніж нотаток</p>
+          <h1 class="display" id="hero-title">
+            <span class="line">Зустрічі,</span>
+            <span class="line">після яких</span>
+            <span class="line">усе зрозуміло</span>
+          </h1>
+          <p class="lede hero-fade" data-animate>
+            Lumen сам приходить на дзвінок у Zoom, Meet або Teams, тримає нитку розмови і повертає стислий підсумок, задачі й дедлайни — ще до того, як ви закриєте ноутбук.
+          </p>
+          <div class="hero-actions hero-fade" data-animate>
+            <button class="btn btn-primary" type="button" data-magnetic data-open-signup>
+              Спробувати безкоштовно
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </button>
+            <a class="btn btn-ghost" href="#demo" data-magnetic>
+              <svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg>
+              Дивитись демо
+            </a>
+          </div>
+          <p class="fine hero-fade" data-animate>5 зустрічей без карти · старт за 2 хвилини</p>
+        </div>
+
+        <p class="sr-only">
+          Демонстрація синку продукту. Олена фіксує реліз на п’ятницю о 18:00 і віддає Марку інтеграцію зі Slack до четверга. Аня оновлює макети онбордингу до середи. Lumen складає три задачі з відповідальними.
+        </p>
+
+        <div class="stage">
+          <div class="mock" id="demo" aria-hidden="true">
+            <div class="mock-chrome">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span>Синк продукту · Zoom</span>
+              <span class="rec"><i></i> 24:18</span>
+            </div>
+            <div class="mock-body">
+              <div class="call">
+                <div class="tile is-speaking" data-tile="0">
+                  <span class="avatar tone-amber">ОК</span>
+                  <strong>Олена</strong>
+                  <span>продакт</span>
+                </div>
+                <div class="tile" data-tile="1">
+                  <span class="avatar tone-blue">МД</span>
+                  <strong>Марко</strong>
+                  <span>інженер</span>
+                </div>
+                <div class="tile" data-tile="2">
+                  <span class="avatar tone-sand">АМ</span>
+                  <strong>Аня</strong>
+                  <span>дизайн</span>
+                </div>
+                <div class="tile" data-tile="3">
+                  <span class="avatar">L</span>
+                  <strong>Lumen</strong>
+                  <span>слухає · без камери</span>
+                </div>
+              </div>
+              <div class="transcript">
+                <p class="block-label">Транскрипт</p>
+                <ol class="lines" id="lines"></ol>
+              </div>
+              <div class="task-block">
+                <p class="block-label">Задачі з цієї зустрічі</p>
+                <ul class="task-list" id="tasks">
+                  <li>
+                    <span class="check" aria-hidden="true"><svg><use href="#i-check"></use></svg></span>
+                    <span>Інтеграція Slack</span>
+                    <span class="who-name">Марко · до чт, 16:00</span>
+                  </li>
+                  <li>
+                    <span class="check" aria-hidden="true"><svg><use href="#i-check"></use></svg></span>
+                    <span>Макети онбордингу, три екрани</span>
+                    <span class="who-name">Аня · до ср</span>
+                  </li>
+                  <li>
+                    <span class="check" aria-hidden="true"><svg><use href="#i-check"></use></svg></span>
+                    <span>Чеклист релізу</span>
+                    <span class="who-name">Олена · пт, 18:00</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="marquee-wrap" aria-label="Інтеграції">
+        <h2 class="sr-only">Працює з вашими інструментами</h2>
+        <div class="marquee">
+          <div class="marquee-track">
+            <ul>
+              <li>Zoom</li><li>Google Meet</li><li>Microsoft Teams</li><li>Slack</li><li>Notion</li><li>Jira</li><li>Linear</li>
+            </ul>
+            <ul aria-hidden="true">
+              <li>Zoom</li><li>Google Meet</li><li>Microsoft Teams</li><li>Slack</li><li>Notion</li><li>Jira</li><li>Linear</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="features" aria-labelledby="features-title">
+        <div class="section-head">
+          <div data-reveal>
+            <p class="eyebrow">01 — Можливості</p>
+            <h2 class="section-title" id="features-title">Усе, що зазвичай<br />робиться після дзвінка</h2>
+          </div>
+          <p class="lede" data-reveal>Lumen не веде зустріч замість вас. Він прибирає роботу, яку ніхто не встигає записати.</p>
+        </div>
+
+        <div class="bento-grid">
+          <article class="bento span-7" data-reveal>
+            <p class="eyebrow">Наживо</p>
+            <h3>Слухає, поки ви говорите</h3>
+            <p>Хвиля реагує на голос. Текст з’являється з затримкою менше секунди — без окремого учасника на ім’я Bot.</p>
+            <div class="mini eq" aria-hidden="true" id="eq"></div>
+          </article>
+
+          <article class="bento span-5" data-reveal>
+            <p class="eyebrow">Спікери</p>
+            <h3>Знає, хто це сказав</h3>
+            <p>Репліки розведені кольором. Можна стрибнути туди, де Марко пообіцяв дедлайн.</p>
+            <div class="mini">
+              <ul class="script-list">
+                <span class="hl" aria-hidden="true"></span>
+                <li><span class="tone-amber">Олена · 00:18</span><br />Реліз лишаємо на п’ятницю, 18:00.</li>
+                <li><span class="tone-blue">Марко · 00:21</span><br />Slack візьму. Чернетка до четверга.</li>
+                <li><span class="tone-sand">Аня · 00:24</span><br />Макети скорочу до трьох екранів.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="bento span-6" data-reveal id="summary-card">
+            <p class="eyebrow">Підсумок</p>
+            <h3>Година стискається в три пункти</h3>
+            <p>Рішення, відкрите питання, наступний крок. Без стенограми на шість сторінок.</p>
+            <div class="mini sum-stage">
+              <p class="sum-long">Сорок хвилин говорили про онбординг, ціну для агенцій і дату релізу. Зійшлися, що вісім екранів ніхто не проходить, інтеграцію зі Slack не варто відкладати на наступний спринт, а реліз без чеклиста знову розповзеться в п’ятницю ввечері.</p>
+              <ul class="sum-short">
+                <li>Реліз у п’ятницю, 18:00, з чеклистом</li>
+                <li>Slack — цей спринт, не наступний</li>
+                <li>Онбординг: три екрани замість восьми</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="bento span-6" data-reveal id="dispatch-card">
+            <p class="eyebrow">Задачі</p>
+            <h3>Летять туди, де працює команда</h3>
+            <p>Відповідальний, дедлайн і цитата з розмови. Slack, Notion, Jira або Linear.</p>
+            <div class="mini dispatch">
+              <div class="chips" id="chips">
+                <div class="chip">Slack · Марко · чт 16:00</div>
+                <div class="chip">Макети · Аня · ср</div>
+                <div class="chip">Чеклист · Олена · пт</div>
+              </div>
+              <div class="dest" id="dest">#product</div>
+            </div>
+          </article>
+
+          <article class="bento span-7" data-reveal id="search-card">
+            <p class="eyebrow">Пам’ять</p>
+            <h3>Пошук по всіх зустрічах</h3>
+            <p>«Що ми вирішили щодо ціни в березні?» — відповідь із таймкодом, не з чиєїсь пам’яті.</p>
+            <div class="mini search-ui" aria-hidden="true">
+              <p class="fake-query" id="demo-search"></p>
+              <ul class="search-hits" hidden></ul>
+            </div>
+          </article>
+
+          <article class="bento span-5 bento-wide" data-reveal>
+            <div class="copy">
+              <p class="eyebrow">Межі</p>
+              <h3>Вміє не приходити</h3>
+              <p>Позначте подію приватною — Lumen залишиться в календарі й не підключиться. Він не перебиває і не вмикає камеру.</p>
+            </div>
+            <div class="mini private-row">
+              <div>
+                <strong>1:1 з інвестором</strong>
+                <div class="fine">Приватна · Lumen пропустить</div>
+              </div>
+              <div class="switch" aria-hidden="true"><i></i></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="how" aria-labelledby="how-title">
+        <div class="how-pin wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">02 — Як це працює</p>
+              <h2 class="section-title" id="how-title">Три кроки і жодного бота в кадрі</h2>
+            </div>
+          </div>
+          <div class="how-grid">
+            <article class="step is-active" data-step="0">
+              <button type="button">
+                <div class="step-kicker">01</div>
+                <h3>Підключи календар</h3>
+                <p>Google або Outlook. Lumen бачить лише події, куди його запросили, або всі зовнішні дзвінки — як вирішите ви, не ми.</p>
+              </button>
+            </article>
+            <div class="panel is-active" data-panel="0">
+              <div class="cal" aria-hidden="true">
+                <div>Пн</div>
+                <div>Вт</div>
+                <div class="meet">Ср<b>Синк продукту 10:00<br />Lumen запрошено</b></div>
+                <div>Чт</div>
+                <div>Пт</div>
+              </div>
+            </div>
+
+            <article class="step" data-step="1">
+              <button type="button">
+                <div class="step-kicker">02</div>
+                <h3>Lumen приходить на зустріч</h3>
+                <p>За хвилину до початку з’являється учасником. Камеру не вмикає, голосу не подає. Запис зупиняється одним кліком — і це видно всім.</p>
+              </button>
+            </article>
+            <div class="panel" data-panel="1">
+              <div class="join-grid" aria-hidden="true">
+                <div>Олена<br /><span class="fine">у кадрі</span></div>
+                <div>Марко<br /><span class="fine">у кадрі</span></div>
+                <div>Аня<br /><span class="fine">демонструє макет</span></div>
+                <div class="lumen-tile">Lumen<br /><span class="fine">слухає · камера вимкнена</span></div>
+              </div>
+            </div>
+
+            <article class="step" data-step="2">
+              <button type="button">
+                <div class="step-kicker">03</div>
+                <h3>Отримай підсумок і задачі</h3>
+                <p>Кілька хвилин після завершення — короткий підсумок і картки з іменами. Туди, де команда й так працює: Slack, Notion, Jira чи Linear.</p>
+              </button>
+            </article>
+            <div class="panel" data-panel="2">
+              <div class="slack">
+                <header>SLACK · #PRODUCT · 10:41</header>
+                <strong>Підсумок синку</strong>
+                <ul>
+                  <li>Реліз у п’ятницю, 18:00</li>
+                  <li>Slack-інтеграція — Марко, до четверга</li>
+                  <li>Онбординг — три екрани, Аня, до середи</li>
+                </ul>
+                <div class="pills"><span>Відкрити в Notion</span><span>Створити в Jira</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="stats" aria-labelledby="stats-title">
+        <p class="eyebrow">03 — Цифри пілоту</p>
+        <h2 class="section-title" id="stats-title" data-reveal>Менше нотаток.<br />Більше зробленого.</h2>
+        <div class="stats-grid">
+          <article class="stat">
+            <p class="stat-num"><span data-count="12" data-decimals="0">0</span><span>год</span></p>
+            <p>середній час, який команда з восьми людей повертає собі за тиждень</p>
+          </article>
+          <article class="stat">
+            <p class="stat-num"><span data-count="42" data-decimals="0">0</span><span>мови</span></p>
+            <p>в одній розмові, включно з українською і змішаними репліками</p>
+          </article>
+          <article class="stat">
+            <p class="stat-num"><span data-count="98.6" data-decimals="1">0</span><span>%</span></p>
+            <p>точність транскрипції на чистій доріжці Zoom у пілотних командах</p>
+          </article>
+        </div>
+        <p class="note">Цифри з пілотних команд за останній квартал. Оновлюємо раз на місяць, без округлення «до ста».</p>
+      </section>
+
+      <section class="section" id="stories" aria-labelledby="stories-title">
+        <div class="wrap slider-head">
+          <div>
+            <p class="eyebrow">04 — Відгуки</p>
+            <h2 class="section-title" id="stories-title">Команди, які перестали<br />переписувати дзвінки</h2>
+            <p class="note">Приклади відгуків для макета. Замінимо на живі після пілоту.</p>
+          </div>
+          <div class="slider-controls">
+            <button class="icon-btn" type="button" data-prev aria-label="Попередній відгук">
+              <svg class="icon"><use href="#i-left"></use></svg>
+            </button>
+            <button class="icon-btn" type="button" data-next aria-label="Наступний відгук">
+              <svg class="icon"><use href="#i-right"></use></svg>
+            </button>
+          </div>
+        </div>
+        <div class="slider bleed-left" id="slider" tabindex="0" role="region" aria-roledescription="карусель" aria-label="Приклади відгуків">
+          <article class="t-card">
+            <span class="tag">Приклад</span>
+            <p>Раніше п’ятничний синк розходився в трьох документах. Тепер у Slack є три задачі з іменами — і ніхто не питає «а хто це бере?».</p>
+            <div class="who-row"><span class="initials">ОК</span><div><b>Олена Коваль</b><span>Head of Product, Northwind</span></div></div>
+          </article>
+          <article class="t-card">
+            <span class="tag">Приклад</span>
+            <p>Виходжу з дейлі й одразу пишу код. Lumen сам кладе підсумок у Notion. Єдине, що дратує — тепер видно, коли я обіцяю дедлайн занадто легко.</p>
+            <div class="who-row"><span class="initials">МД</span><div><b>Марко Діденко</b><span>інженер-фаундер, Kite</span></div></div>
+          </article>
+          <article class="t-card">
+            <span class="tag">Приклад</span>
+            <p>У нас по вісім клієнтських дзвінків на день. Lumen тримає обіцянки клієнтам акуратніше, ніж наш внутрішній чат після шостої зустрічі.</p>
+            <div class="who-row"><span class="initials">АМ</span><div><b>Аня Мельник</b><span>продюсерка, студія Поле</span></div></div>
+          </article>
+          <article class="t-card">
+            <span class="tag">Приклад</span>
+            <p>Підключили Teams у вівторок. У четвер джуніори перестали губити домовленості. Рідкісний випадок, коли софт зменшив кількість повідомлень.</p>
+            <div class="who-row"><span class="initials">ТШ</span><div><b>Тарас Шевчук</b><span>операційний директор, агенція Верес</span></div></div>
+          </article>
+          <article class="t-card">
+            <span class="tag">Приклад</span>
+            <p>Працюю з трьома командами одночасно. Пошук по зустрічах замінив мені папку «нотатки фінал v7».</p>
+            <div class="who-row"><span class="initials">ІБ</span><div><b>Іра Бондар</b><span>фриланс-продакт</span></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section wrap" id="pricing" aria-labelledby="pricing-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">05 — Ціни</p>
+            <h2 class="section-title" id="pricing-title">Прозоро. Без «напишіть у відділ продажів» на першому екрані.</h2>
+          </div>
+          <div>
+            <div class="bill" role="group" aria-label="Період оплати">
+              <button type="button" data-bill="month" aria-pressed="true">Місяць</button>
+              <button type="button" data-bill="year" aria-pressed="false">Рік <span class="save">−20%</span></button>
+            </div>
+            <p class="note">Ціни в доларах, без ПДВ. Скасувати можна в будь-який день.</p>
+          </div>
+        </div>
+        <div class="price-grid">
+          <article class="price-card max-md:order-2">
+            <h3 class="plan-name">Solo</h3>
+            <p class="price-row" aria-live="polite">$<span data-month="0" data-year="0">0</span></p>
+            <p>Для фрилансера або одного продакта, який ходить на чужі синки.</p>
+            <ul>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>5 зустрічей на місяць</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Підсумок і задачі</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Slack або Notion</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>14 днів історії</li>
+            </ul>
+            <button class="btn btn-ghost" type="button" data-open-signup>Почати з Solo</button>
+          </article>
+          <article class="price-card is-featured max-md:order-1">
+            <h3 class="plan-name">Team · радять пілоти</h3>
+            <p class="price-row" aria-live="polite">$<span data-month="18" data-year="14">18</span><small>/ міс</small></p>
+            <p>Для продуктової команди до 15 людей.</p>
+            <ul>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Необмежені зустрічі</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Zoom, Meet і Teams</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Slack, Notion, Jira, Linear</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Пошук по архіву і гостьовий доступ</li>
+            </ul>
+            <button class="btn btn-primary" type="button" data-magnetic data-open-signup>Спробувати безкоштовно</button>
+          </article>
+          <article class="price-card max-md:order-3">
+            <h3 class="plan-name">Studio</h3>
+            <p class="price-row" aria-live="polite">$<span data-month="42" data-year="34">42</span><small>/ міс</small></p>
+            <p>Для агенцій, де клієнтські дзвінки не можна змішувати.</p>
+            <ul>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Окремі простори клієнтів</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Пріоритетна черга</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Експорт і API</li>
+              <li><svg aria-hidden="true"><use href="#i-check"></use></svg>Договір, рахунок, окреме сховище</li>
+            </ul>
+            <button class="btn btn-ghost" type="button" data-open-signup>Поговорити про Studio</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="section wrap" id="security" aria-labelledby="security-title">
+        <div class="section-head">
+          <div data-reveal>
+            <p class="eyebrow">06 — Безпека</p>
+            <h2 class="section-title" id="security-title">Розмови залишаються вашими</h2>
+          </div>
+          <p class="lede" data-reveal>Запис шифрується на шляху і в сховищі. Ми не навчаємо моделі на ваших зустрічах і не продаємо транскрипти.</p>
+        </div>
+        <ul class="sec-list">
+          <li><span class="idx">01</span><div><b>AES-256</b><span>Шифрування в дорозі й на диску. Ключі окремо від записів.</span></div></li>
+          <li><span class="idx">02</span><div><b>Ізоляція просторів</b><span>Команда бачить лише свої зустрічі. Клієнт агенції не бачить сусіда.</span></div></li>
+          <li><span class="idx">03</span><div><b>Видалення за добу</b><span>Запит прибирає запис, транскрипт і пов’язані задачі протягом 24 годин.</span></div></li>
+          <li><span class="idx">04</span><div><b>Без навчання на вас</b><span>Ваші розмови не йдуть у загальні моделі. Це правило, не опція внизу сторінки.</span></div></li>
+          <li><span class="idx">05</span><div><b>Вимикач запису</b><span>Окремо для зустрічі, для 1:1 і для всього календаря. Приватну подію Lumen пропускає.</span></div></li>
+        </ul>
+      </section>
+
+      <section class="section wrap" id="faq" aria-labelledby="faq-title">
+        <p class="eyebrow">07 — Питання</p>
+        <h2 class="section-title" id="faq-title">Коротко, без чату підтримки</h2>
+        <div class="faq">
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-1" id="faq-b1">Чи бачать колеги, що Lumen на дзвінку?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-1" role="region" aria-labelledby="faq-b1" aria-hidden="true"><div class="faq-inner"><p>Так. Він приходить як учасник із ім’ям Lumen — без камери і без голосу. Приховувати запис ми не вміємо і не будемо.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-2" id="faq-b2">Які сервіси підтримуються?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-2" role="region" aria-labelledby="faq-b2" aria-hidden="true"><div class="faq-inner"><p>На вході — Zoom, Google Meet і Microsoft Teams. На виході — Slack, Notion, Jira і Linear. Календар: Google і Outlook.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-3" id="faq-b3">Якими мовами розуміє?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-3" role="region" aria-labelledby="faq-b3" aria-hidden="true"><div class="faq-inner"><p>Українською, англійською і ще сорока мовами. Змішану розмову розкладає по спікерах, а підсумок може віддати мовою зустрічі або українською.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-4" id="faq-b4">Наскільки точні задачі?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-4" role="region" aria-labelledby="faq-b4" aria-hidden="true"><div class="faq-inner"><p>Задача з’являється, лише якщо в розмові є дія і власник або явний намір. Сумнівне Lumen позначає як «перевірити» і не вигадує дедлайн із повітря.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-5" id="faq-b5">Що з конфіденційними зустрічами?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-5" role="region" aria-labelledby="faq-b5" aria-hidden="true"><div class="faq-inner"><p>Позначка «приватна» в календарі, окреме правило для 1:1 або стоп у чаті зустрічі. Тоді Lumen не підключається і не зберігає фрагмент.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" aria-expanded="false" aria-controls="faq-6" id="faq-b6">Скільки зберігаються записи?<svg aria-hidden="true"><use href="#i-chevron"></use></svg></button>
+            <div class="faq-panel" id="faq-6" role="region" aria-labelledby="faq-b6" aria-hidden="true"><div class="faq-inner"><p>На Solo — 14 днів. На Team і Studio — поки ви самі не видалите. Видалення з продукту прибирає запис, транскрипт і задачі протягом доби.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-final wrap" id="cta" aria-labelledby="cta-title">
+        <div class="cta-glow" aria-hidden="true"></div>
+        <p class="eyebrow">08 — Далі</p>
+        <h2 class="display" id="cta-title">
+          <span class="line">Наступна зустріч</span>
+          <span class="line">може закінчитися</span>
+          <span class="line">списком задач.</span>
+        </h2>
+        <p class="lede" data-reveal>П’ять дзвінків безкоштовно. Карта не потрібна. Якщо Lumen не зекономить вам годину за тиждень — просто вимкніть його.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" data-magnetic data-open-signup>
+            Спробувати безкоштовно
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot-grid">
+        <div>
+          <a class="logo" href="#main">
+            <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+              <circle cx="16" cy="16" r="11" fill="none" stroke="#ffb547" stroke-width="1.4" opacity="0.55" />
+              <circle cx="16" cy="16" r="4.5" fill="#ffb547" />
+            </svg>
+            Lumen
+          </a>
+          <p class="legal">Асистент для людей, які говорять на зустрічах, а працюють після них.</p>
+        </div>
+        <div>
+          <h2>Продукт</h2>
+          <ul>
+            <li><a href="#features">Можливості</a></li>
+            <li><a href="#how">Як працює</a></li>
+            <li><a href="#pricing">Ціни</a></li>
+            <li><a href="#security">Безпека</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Компанія</h2>
+          <ul>
+            <li><a href="mailto:hello@lumen.app">hello@lumen.app</a></li>
+            <li><a href="#stories">Пілотні команди</a></li>
+            <li><a href="#faq">Питання</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Назовні</h2>
+          <ul>
+            <li><a href="https://www.linkedin.com" rel="noreferrer" target="_blank">LinkedIn</a></li>
+            <li><a href="https://x.com" rel="noreferrer" target="_blank">X</a></li>
+            <li><a href="https://www.youtube.com" rel="noreferrer" target="_blank">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wrap legal">© 2026 Lumen. Політика і умови публікуються разом із відкритим доступом. До того дані пілоту описані в розділі безпеки.</div>
+      <div class="wordmark-wrap" aria-hidden="true">
+        <p class="wordmark">Lumen</p>
+      </div>
+    </footer>
+
+    <dialog id="signup" aria-labelledby="signup-title">
+      <div class="dialog-card">
+        <button class="icon-btn dialog-close" type="button" data-close aria-label="Закрити">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+        <form id="signup-form">
+          <p class="eyebrow">Пілот</p>
+          <h2 id="signup-title">П’ять зустрічей, далі вирішите самі</h2>
+          <p>Надішлемо посилання на робочу пошту. Без карти і без дайджеста двічі на тиждень.</p>
+          <label class="field">
+            <span>Робоча пошта</span>
+            <input type="email" name="email" required autocomplete="email" inputmode="email" placeholder="you@studio.com" />
+          </label>
+          <p class="form-error" role="alert"></p>
+          <button class="btn btn-primary" type="submit">Спробувати безкоштовно</button>
+        </form>
+        <div id="signup-done" hidden>
+          <p class="eyebrow">Готово</p>
+          <h2>Ви в списку пілоту</h2>
+          <p>Напишемо на <strong data-email></strong> протягом робочого дня. Якщо листа не буде — він не в спамі, ми просто ще не дійшли до вашої черги.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
