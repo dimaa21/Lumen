@@ -179,7 +179,7 @@ html.js:not(.booted) [data-animate] {
   pointer-events: none;
   opacity: 0.22;
   mix-blend-mode: overlay;
-  background-image: url("/noise.png");
+  background-image: var(--noise, url("/noise.png"));
   background-size: 160px 160px;
 }
 

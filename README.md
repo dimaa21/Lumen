@@ -33,7 +33,13 @@ npm run build
 npm run preview
 ```
 
-`build` writes a static site to `dist/`. `preview` serves that folder so you can check the production bundle.
+`build` writes a static site to `dist/` with asset paths prefixed by `/Lumen/`, which is the GitHub Pages project URL. `preview` serves that folder at `http://127.0.0.1:4173/Lumen/`.
+
+## GitHub Pages
+
+The live site has to be the production build. Publishing the repository root serves `index.html` as source, and the browser then requests `/src/main.js` from the domain root instead of `/Lumen/`. Styles and scripts never load, so the page looks like unstyled HTML.
+
+`.github/workflows/pages.yml` builds `dist/` and deploys it on every push to `main`. In the repository settings, set Pages to **GitHub Actions** (Settings → Pages → Build and deployment → Source). After the first successful run the site is at [dimaa21.github.io/Lumen](https://dimaa21.github.io/Lumen/).
 
 ## Project structure
 

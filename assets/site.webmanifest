@@ -1,7 +1,7 @@
 {
   "name": "Lumen",
   "short_name": "Lumen",
-  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
   "theme_color": "#07080c",
   "background_color": "#07080c",
   "display": "standalone"
